@@ -5,8 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Pattern.Flag;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
+import javax.validation.constraints.Pattern;
 
 @Data
 @Entity
@@ -17,6 +19,14 @@ public class Tag {
   @Column(name = "ID")
   private Long id;
 
-  @Column(name = "NAME", unique = true)
+  @Column(name = "NAME", unique = true, nullable = false)
+  @Pattern(regexp="(?U)\\w+")
   private String name;
+
+  public Tag() {
+  }
+
+  public Tag(@NonNull String name) {
+    this.name = name;
+  }
 }
