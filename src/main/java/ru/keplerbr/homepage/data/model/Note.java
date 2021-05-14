@@ -41,6 +41,6 @@ public class Note {
   @Column(name = "RENDERED", nullable = false, length = MARKDOWN_MAX_LENGTH * 4)
   private String rendered;
 
-  @OneToMany(mappedBy = "id")
+  @OneToMany(mappedBy = "ID")
   private Set<Tag> tags;
 }

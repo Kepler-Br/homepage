@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.keplerbr.homepage.data.model.Tag;
+import ru.keplerbr.homepage.data.model.exception.AlreadyExistsException;
 import ru.keplerbr.homepage.data.model.exception.TagNotFoundByIdException;
 import ru.keplerbr.homepage.data.model.exception.TagNotFoundByNameException;
 import ru.keplerbr.homepage.data.repository.TagRepository;
@@ -44,6 +45,9 @@ public class TagService {
   }
 
   public ResponseEntity<Tag> create(String name) {
+    if (tagRepository.existsByName(name)) {
+      throw new AlreadyExistsException(String.format("Tag with name '%s' already exists.", name));
+    }
     Tag tag = tagRepository.save(new Tag(name));
 
     return ResponseEntity

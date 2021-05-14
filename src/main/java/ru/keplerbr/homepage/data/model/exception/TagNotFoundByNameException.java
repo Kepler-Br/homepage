@@ -6,12 +6,11 @@ import lombok.Getter;
 public class TagNotFoundByNameException extends NotFoundException {
 
   private static final String messagePattern = "Tag with name \"%s\" was not found in the database.";
-  private static final int errorCode = 100;
 
   private final String tagName;
 
   public TagNotFoundByNameException(String tagName) {
-    super(String.format(messagePattern, tagName), errorCode);
+    super(String.format(messagePattern, tagName));
 
     this.tagName = tagName;
   }
