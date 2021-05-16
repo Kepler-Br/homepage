@@ -1,11 +1,9 @@
 package ru.keplerbr.homepage.server.api.impl.v1.controller;
 
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
