@@ -1,0 +1,50 @@
+package ru.keplerbr.homepage.server.api.impl.v1.mapper;
+
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.ReportingPolicy;
+import ru.keplerbr.homepage.data.model.Article;
+import ru.keplerbr.homepage.data.model.Tag;
+import ru.keplerbr.homepage.data.model.request.ArticleAlternationRequest;
+
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public abstract class ArticleRequestToArticleMapper {
+
+  @Mappings({
+      @Mapping(target = "visibility", source = "request.visibility"),
+      @Mapping(target = "slug", source = "request.slug"),
+      @Mapping(target = "title", source = "request.title"),
+      @Mapping(target = "markdown", source = "request.body"),
+      @Mapping(target = "language", source = "request.language"),
+      @Mapping(target = "tags", source = "request.tags"),
+  })
+  public abstract Article fromRequest(ArticleAlternationRequest request);
+
+  @Mappings({
+      @Mapping(target = "visibility", source = "article.visibility"),
+      @Mapping(target = "slug", source = "article.slug"),
+      @Mapping(target = "title", source = "article.title"),
+      @Mapping(target = "body", source = "article.markdown"),
+      @Mapping(target = "language", source = "article.language"),
+      @Mapping(target = "tags", source = "article.tags"),
+  })
+  public abstract ArticleAlternationRequest fromArticle(Article article);
+
+  Set<Tag> stringToEnumTag(Set<String> value) {
+    return value
+        .stream()
+        .map(Tag::new)
+        .collect(Collectors.toSet());
+  }
+
+  Set<String> enumToStringTag(Set<Tag> value) {
+    return value
+        .stream()
+        .map(Tag::toString)
+        .collect(Collectors.toSet());
+  }
+
+}

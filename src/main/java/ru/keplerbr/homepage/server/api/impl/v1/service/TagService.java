@@ -2,10 +2,9 @@ package ru.keplerbr.homepage.server.api.impl.v1.service;
 
 import java.net.URI;
 import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,6 +24,9 @@ import ru.keplerbr.homepage.data.repository.TagRepository;
 public class TagService {
 
   private final TagRepository tagRepository;
+
+  @Value("${api.v1.base}")
+  private String baseUri;
 
   public ResponseEntity<Tag> delete(String name) {
     long total = tagRepository.deleteByName(name);
@@ -51,7 +53,7 @@ public class TagService {
     Tag tag = tagRepository.save(new Tag(name));
 
     return ResponseEntity
-        .created(URI.create(String.format("tag/name/%s", tag.getName())))
+        .created(URI.create(String.format("%s/name/%s", baseUri, tag.getName())))
         .body(tag);
   }
 

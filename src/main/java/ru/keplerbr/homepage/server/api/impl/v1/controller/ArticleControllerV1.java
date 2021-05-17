@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.keplerbr.homepage.data.model.Article;
+import ru.keplerbr.homepage.data.model.request.ArticleAlternationRequest;
+import ru.keplerbr.homepage.server.api.impl.v1.service.ArticleService;
 
 @RestController
-@RequestMapping(value = "${api.v1.path}/article", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "${api.v1.base}/article", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Validated
 public class ArticleControllerV1 {
+
+  private final ArticleService articleService;
 
   @GetMapping("slug/{slug}")
   public ResponseEntity<Article> getBySlug(@PathVariable(name = "slug") String slug) {
@@ -25,8 +29,8 @@ public class ArticleControllerV1 {
   }
 
   @PostMapping
-  public ResponseEntity<Article> create(@RequestBody Article article) {
-
+  public ResponseEntity<Article> create(@RequestBody ArticleAlternationRequest request) {
+    return articleService.create(request);
   }
 
 }

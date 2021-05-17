@@ -15,4 +15,6 @@ public class ApiUrlsConfigurationProperties {
 
   private String tagV1;
 
+  private String articleV1;
+
 }

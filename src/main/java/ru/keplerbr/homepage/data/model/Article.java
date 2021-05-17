@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import javax.persistence.PrePersist;
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -33,13 +35,16 @@ public class Article {
   @Enumerated(EnumType.ORDINAL)
   private Visibility visibility = Visibility.PRIVATE;
 
-  @Column(name = "SLUG", nullable = false, unique = true)
-  private String slug;
+  @Column(name = "URL", nullable = false, unique = true)
+  @NotEmpty
+  private String url;
 
   @Column(name = "TITLE", nullable = false, length = TITLE_MAX_LENGTH)
+  @NotEmpty
   private String title;
 
   @Column(name = "MARKDOWN", nullable = false, length = MARKDOWN_MAX_LENGTH)
+  @NotEmpty
   private String markdown;
 
   @Column(name = "RENDERED", nullable = false, length = MARKDOWN_MAX_LENGTH * 4)
@@ -59,5 +64,10 @@ public class Article {
 
   @OneToMany(mappedBy = "id")
   private Set<Tag> tags;
+
+  @PrePersist
+  public void beforeNewArticleCreated() {
+    rendered = markdown;
+  }
 
 }

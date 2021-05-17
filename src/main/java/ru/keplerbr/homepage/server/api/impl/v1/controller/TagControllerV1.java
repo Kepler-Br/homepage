@@ -23,7 +23,7 @@ import ru.keplerbr.homepage.data.model.Tag;
 import ru.keplerbr.homepage.server.api.impl.v1.service.TagService;
 
 @RestController
-@RequestMapping(value = "${api.v1.path}/tag", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "${api.v1.base}/tag", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Validated
 public class TagControllerV1 {

@@ -1,4 +1,4 @@
-package ru.keplerbr.homepage.data.model.exception;
+package ru.keplerbr.homepage.data.model.enumerator;
 
 import lombok.Getter;
 
