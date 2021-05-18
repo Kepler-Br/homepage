@@ -1,6 +1,7 @@
 package ru.keplerbr.homepage.server.api.impl.v1.service;
 
 import java.net.URI;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import ru.keplerbr.homepage.data.model.Article;
 import ru.keplerbr.homepage.data.model.request.ArticleAlternationRequest;
 import ru.keplerbr.homepage.data.repository.ArticleRepository;
+import ru.keplerbr.homepage.data.utils.IdBasedUriGenerator;
 import ru.keplerbr.homepage.server.api.impl.v1.mapper.ArticleRequestToArticleMapper;
 
 @Transactional
@@ -28,13 +30,18 @@ public class ArticleService {
   @Value("${api.v1.base}")
   private String baseUri;
 
-  public ResponseEntity<Article> create(ArticleAlternationRequest request) {
+  public ResponseEntity<Article> create(@Valid ArticleAlternationRequest request) {
     Article article = mapper.fromRequest(request);
 
     article = repository.save(article);
+    Long articleId = article.getId();
+    String articleUrl = IdBasedUriGenerator.generate("Articles", articleId, 4);
+    article.setUrl(articleUrl);
+    repository.save(article);
+
     return ResponseEntity.created(
         URI.create(
-            String.format("%s/acrticle/%s", baseUri, "article.getSlug()")
+            String.format("%s/acrticle/%s", baseUri, article.getUrl())
         )).build();
   }
 

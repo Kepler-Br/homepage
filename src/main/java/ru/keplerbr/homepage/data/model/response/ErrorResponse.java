@@ -1,4 +1,4 @@
-package ru.keplerbr.homepage.data.model;
+package ru.keplerbr.homepage.data.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

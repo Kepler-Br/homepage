@@ -10,11 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import ru.keplerbr.homepage.data.model.enumerator.Language;
 import ru.keplerbr.homepage.data.model.enumerator.Visibility;
@@ -24,6 +23,7 @@ import ru.keplerbr.homepage.data.model.enumerator.Visibility;
 public class Article {
 
   public static final int MARKDOWN_MAX_LENGTH = 4096;
+
   public static final int TITLE_MAX_LENGTH = 1024;
 
   @Id
@@ -35,8 +35,7 @@ public class Article {
   @Enumerated(EnumType.ORDINAL)
   private Visibility visibility = Visibility.PRIVATE;
 
-  @Column(name = "URL", nullable = false, unique = true)
-  @NotEmpty
+  @Column(name = "URL", unique = true)
   private String url;
 
   @Column(name = "TITLE", nullable = false, length = TITLE_MAX_LENGTH)
@@ -54,8 +53,7 @@ public class Article {
   @Enumerated(EnumType.STRING)
   private Language language = Language.EN;
 
-  @Column(name = "CREATED_AT", nullable = false)
-  @CreationTimestamp
+  @Column(name = "CREATED_AT", nullable = false, updatable = false)
   private Date createdAt;
 
   @Column(name = "UPDATED_AT", nullable = false)
@@ -66,8 +64,16 @@ public class Article {
   private Set<Tag> tags;
 
   @PrePersist
-  public void beforeNewArticleCreated() {
+  public void beforeCreated() {
     rendered = markdown;
+    createdAt = new Date();
+    updatedAt = (Date) createdAt.clone();
+  }
+
+  @PreUpdate
+  public void beforeUpdated() {
+    rendered = markdown;
+    updatedAt = new Date();
   }
 
 }

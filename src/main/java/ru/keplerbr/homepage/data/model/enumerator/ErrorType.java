@@ -9,6 +9,7 @@ public enum ErrorType {
   FORBIDDEN(403),
   NOT_FOUND(404),
   CONFLICT(409),
+  UNSUPPORTED_MEDIA_TYPE(415),
   TOO_MANY_REQUESTS(429);
 
   private final int code;

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.keplerbr.homepage.data.model.ErrorResponse;
+import ru.keplerbr.homepage.data.model.response.ErrorResponse;
 import ru.keplerbr.homepage.data.model.Tag;
 import ru.keplerbr.homepage.server.api.impl.v1.service.TagService;
 
