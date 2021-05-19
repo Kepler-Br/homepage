@@ -1,5 +1,7 @@
 package ru.keplerbr.homepage.data.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Column;
@@ -20,6 +22,7 @@ import ru.keplerbr.homepage.data.model.enumerator.Visibility;
 
 @Data
 @Entity
+@JsonInclude(Include.NON_NULL)
 public class Article {
 
   public static final int MARKDOWN_MAX_LENGTH = 4096;

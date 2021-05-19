@@ -16,8 +16,6 @@ import ru.keplerbr.homepage.data.model.exception.TagNotFoundByIdException;
 import ru.keplerbr.homepage.data.model.exception.TagNotFoundByNameException;
 import ru.keplerbr.homepage.data.repository.TagRepository;
 
-
-@Transactional
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Validated

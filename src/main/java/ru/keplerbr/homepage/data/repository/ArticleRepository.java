@@ -8,7 +8,7 @@ import ru.keplerbr.homepage.data.model.enumerator.Language;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-  Optional<Article> findByUrl(String slug);
+  Optional<Article> findByUrl(String url);
 
   List<Article> findAllByLanguage(Language language);
 

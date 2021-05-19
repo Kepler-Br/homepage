@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.keplerbr.homepage.data.model.enumerator.ErrorType;
+import ru.keplerbr.homepage.data.model.response.ConstraintViolationResponse;
 import ru.keplerbr.homepage.data.model.response.ErrorResponse;
 import ru.keplerbr.homepage.data.model.Tag;
 import ru.keplerbr.homepage.server.api.impl.v1.service.TagService;
@@ -63,16 +65,4 @@ public class TagControllerV1 {
     return tagService.create(name);
   }
 
-  @ExceptionHandler(ConstraintViolationException.class)
-  public ResponseEntity<ErrorResponse> constraintViolation(ConstraintViolationException exception) {
-    List<String> errorMessages =
-        exception.getConstraintViolations().stream()
-            .map(ConstraintViolation::getMessage)
-            .collect(Collectors.toList());
-    StringBuilder stringBuilder = new StringBuilder("Invalid fields: ");
-    errorMessages.forEach(message -> stringBuilder.append(message).append("; "));
-    return ResponseEntity
-        .badRequest()
-        .body(new ErrorResponse(stringBuilder.toString(), 100));
-  }
 }

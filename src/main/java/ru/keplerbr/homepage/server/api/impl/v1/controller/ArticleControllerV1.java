@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.keplerbr.homepage.data.model.Article;
+import ru.keplerbr.homepage.data.model.response.ArticleResponse;
 import ru.keplerbr.homepage.data.model.response.ConstraintViolationResponse;
 import ru.keplerbr.homepage.data.model.response.ErrorResponse;
 import ru.keplerbr.homepage.data.model.enumerator.ErrorType;
@@ -29,7 +30,7 @@ import ru.keplerbr.homepage.server.api.impl.v1.service.ArticleService;
 @RestController
 @RequestMapping(value = "${api.v1.base}/article", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@Validated
+//@Validated
 public class ArticleControllerV1 {
 
   private final ArticleService articleService;
@@ -45,10 +46,10 @@ public class ArticleControllerV1 {
   }
 
   @GetMapping("{url}")
-  public ResponseEntity<Article> getByUrl(
+  public ResponseEntity<ArticleResponse> getByUrl(
       @PathVariable(name = "url") String url,
       @RequestParam(name = "fields", required = false) List<String> fields) {
-
+    return articleService.get(url, fields);
   }
 
 //  @PostMapping("create")
@@ -66,24 +67,6 @@ public class ArticleControllerV1 {
         ErrorType.UNSUPPORTED_MEDIA_TYPE.getCode());
 
     return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(response);
-  }
-
-  @ExceptionHandler(value = {ConstraintViolationException.class})
-  public ResponseEntity<Object> constraintViolationException(
-      ConstraintViolationException ex) {
-    var response = new ConstraintViolationResponse(
-        "Request body fields have incorrect format.",
-        ErrorType.BAD_REQUEST.getCode());
-    ex.getConstraintViolations().forEach((violation) -> {
-      String fieldName = null;
-
-      for (var node : violation.getPropertyPath()) {
-        fieldName = node.getName();
-      }
-      response.addViolatedField(fieldName, violation.getMessage());
-    });
-
-    return ResponseEntity.badRequest().body(response);
   }
 
 }
