@@ -1,13 +1,11 @@
 package ru.keplerbr.homepage.server.api.impl.v1.controller;
 
-import java.util.List;
-import javax.validation.ConstraintViolationException;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,46 +16,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.keplerbr.homepage.data.model.Article;
-import ru.keplerbr.homepage.data.model.response.ArticleResponse;
-import ru.keplerbr.homepage.data.model.response.ConstraintViolationResponse;
-import ru.keplerbr.homepage.data.model.response.ErrorResponse;
 import ru.keplerbr.homepage.data.model.enumerator.ErrorType;
-import ru.keplerbr.homepage.data.model.enumerator.Language;
-import ru.keplerbr.homepage.data.model.enumerator.Visibility;
 import ru.keplerbr.homepage.data.model.request.ArticleAlternationRequest;
+import ru.keplerbr.homepage.data.model.dto.ArticleDto;
+import ru.keplerbr.homepage.data.model.response.ErrorResponse;
 import ru.keplerbr.homepage.server.api.impl.v1.service.ArticleService;
 
 @RestController
 @RequestMapping(value = "${api.v1.base}/article", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-//@Validated
 public class ArticleControllerV1 {
 
   private final ArticleService articleService;
 
-//  @GetMapping("slug/{slug}")
-//  public ResponseEntity<Article> getBySlug(@PathVariable(name = "slug") String slug) {
-//    return ResponseEntity.notFound().build();
-//  }
-
   @PostMapping
-  public ResponseEntity<Article> create(@RequestBody ArticleAlternationRequest request) {
+  public ResponseEntity<Article> create(@RequestBody ArticleDto request) {
     return articleService.create(request);
   }
 
   @GetMapping("{url}")
-  public ResponseEntity<ArticleResponse> getByUrl(
+  public ResponseEntity<ArticleDto> getByUrl(
       @PathVariable(name = "url") String url,
-      @RequestParam(name = "fields", required = false) List<String> fields) {
+      @RequestParam(name = "fields", required = false, defaultValue = "") Set<String> fields) {
     return articleService.get(url, fields);
   }
-
-//  @PostMapping("create")
-//  public ResponseEntity<Article> create() {
-//    var request = new ArticleAlternationRequest("body", "title", null, Language.EN,
-//        Visibility.PRIVATE);
-//    return articleService.create(request);
-//  }
 
   @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
   public ResponseEntity<ErrorResponse> notApplicationJsonMediaTypeException(

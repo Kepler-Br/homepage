@@ -1,5 +1,7 @@
-package ru.keplerbr.homepage.data.model.response;
+package ru.keplerbr.homepage.data.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Column;
@@ -17,7 +19,8 @@ import ru.keplerbr.homepage.data.model.enumerator.Language;
 import ru.keplerbr.homepage.data.model.enumerator.Visibility;
 
 @Data
-public class ArticleResponse {
+@JsonInclude(Include.NON_NULL)
+public class ArticleDto {
 
   private Visibility visibility;
 
@@ -36,4 +39,5 @@ public class ArticleResponse {
   private Date updatedAt;
 
   private Set<String> tags;
+
 }

@@ -22,7 +22,6 @@ import ru.keplerbr.homepage.data.model.enumerator.Visibility;
 
 @Data
 @Entity
-@JsonInclude(Include.NON_NULL)
 public class Article {
 
   public static final int MARKDOWN_MAX_LENGTH = 4096;

@@ -1,7 +1,6 @@
 package ru.keplerbr.homepage.data.model.request;
 
 import java.util.Set;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
