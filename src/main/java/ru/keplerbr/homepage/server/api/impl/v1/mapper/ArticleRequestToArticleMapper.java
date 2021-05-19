@@ -50,26 +50,37 @@ public abstract class ArticleRequestToArticleMapper {
   @Mapping(target = "updatedAt", source = "article.updatedAt")
   public abstract ArticleResponse articleToResponse(Article article);
 
-  public ArticleResponse articleToResponse(Article article, List<String> ignoredFields) {
-    ArticleResponse response = articleToResponse(article);
+  public ArticleResponse articleToResponse(Article article, Set<String> ignoredFields) {
+    var response = new ArticleResponse();
 
-    if (ignoredFields.isEmpty()) {
-      return response;
+    if (!ignoredFields.contains("visibility")) {
+      response.setVisibility(article.getVisibility());
     }
-
-    Class<?> aClass = response.getClass();
-    Map<String, Field> fields = Arrays.stream(aClass.getFields()).collect(Collectors.toMap(Field::getName,
-        Function.identity()));
-    for (var ignoredField : ignoredFields) {
-      if (fields.containsKey(ignoredField)) {
-//        Field field = fields.get(ignoredField);
-//        field.setAccessible(true);
-//        field.set(response, response);
-      }
+    if (!ignoredFields.contains("language")) {
+      response.setLanguage(article.getLanguage());
     }
+    if (!ignoredFields.contains("title")) {
+      response.setTitle(article.getTitle());
+    }
+    if (!ignoredFields.contains("markdown")) {
+      response.setMarkdown(article.getMarkdown());
+    }
+    if (!ignoredFields.contains("rendered")) {
+      response.setRendered(article.getRendered());
+    }
+    if (!ignoredFields.contains("tags")) {
+      response.setTags(tagToString(article.getTags()));
+    }
+    if (!ignoredFields.contains("createdAt")) {
+      response.setCreatedAt(article.getCreatedAt());
+    }
+    if (!ignoredFields.contains("updatedAt")) {
+      response.setUpdatedAt(article.getUpdatedAt());
+    }
+    return response;
   }
 
-  Set<Tag> stringToEnumTag(Set<String> value) {
+  Set<Tag> stringToTag(Set<String> value) {
     if (Objects.isNull(value)) {
       return Collections.emptySet();
     }
@@ -79,7 +90,7 @@ public abstract class ArticleRequestToArticleMapper {
         .collect(Collectors.toSet());
   }
 
-  Set<String> enumToStringTag(Set<Tag> value) {
+  Set<String> tagToString(Set<Tag> value) {
     if (Objects.isNull(value)) {
       return Collections.emptySet();
     }
