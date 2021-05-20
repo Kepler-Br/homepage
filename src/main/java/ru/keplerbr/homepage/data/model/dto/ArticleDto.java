@@ -38,6 +38,6 @@ public class ArticleDto {
 
   private Date updatedAt;
 
-  private Set<String> tags;
+  private Set<Tag> tags;
 
 }

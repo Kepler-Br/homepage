@@ -26,6 +26,8 @@ public class ArticleService {
 
   private static final String SERVICE_NAME = "Article";
 
+  private static final long MIN_URL_LENGTH = 4;
+
   private final ArticleDtoToArticleMapper mapper;
 
   private final ArticleRepository repository;
@@ -39,12 +41,12 @@ public class ArticleService {
   @Value("${api.v1.base}")
   private String baseUri;
 
-  public ResponseEntity<Article> create(ArticleDto articleDto) {
+  public ResponseEntity<Object> create(ArticleDto articleDto) {
     @Valid Article article = mapper.dtoToArticle(articleDto);
 
     article = repository.save(article);
     Long articleId = article.getId();
-    String articleUrl = IdBasedUriGenerator.generate(SERVICE_NAME, articleId, 4);
+    String articleUrl = IdBasedUriGenerator.generate(SERVICE_NAME, articleId, MIN_URL_LENGTH);
 
     article.setUrl(articleUrl);
     repository.save(article);
@@ -70,8 +72,8 @@ public class ArticleService {
     return ResponseEntity.ok(articleDto);
   }
 
-//  public ResponseEntity<Object> patch(String url, ArticleDto articlePatch) {
-//
-//  }
+  public ResponseEntity<Object> patch(String url, ArticleDto articlePatch) {
+    return ResponseEntity.ok().build();
+  }
 
 }

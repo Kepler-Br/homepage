@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,8 +31,8 @@ public class ArticleControllerV1 {
   private final ArticleService articleService;
 
   @PostMapping
-  public ResponseEntity<Article> create(@RequestBody ArticleDto request) {
-    return articleService.create(request);
+  public ResponseEntity<Object> create(@RequestBody ArticleDto articleDto) {
+    return articleService.create(articleDto);
   }
 
   @GetMapping("{url}")
@@ -39,6 +40,13 @@ public class ArticleControllerV1 {
       @PathVariable(name = "url") String url,
       @RequestParam(name = "fields", required = false, defaultValue = "") Set<String> fields) {
     return articleService.get(url, fields);
+  }
+
+  @PatchMapping("{url}")
+  public ResponseEntity<Object> patch(
+      @PathVariable(name = "url") String url,
+      @RequestBody ArticleDto articleDto) {
+    return articleService.patch(url, articleDto);
   }
 
   @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
