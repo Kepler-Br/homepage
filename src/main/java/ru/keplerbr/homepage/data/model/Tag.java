@@ -1,10 +1,12 @@
 package ru.keplerbr.homepage.data.model;
 
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.Pattern.Flag;
 
 import lombok.Data;
@@ -23,6 +25,9 @@ public class Tag {
     @Column(name = "NAME", unique = true, nullable = false)
     @Pattern(regexp = "(?U)\\w+")
     private String name;
+
+    @ManyToMany(mappedBy = "tags")
+    private Set<Article> articles;
 
     public Tag() {
     }

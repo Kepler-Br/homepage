@@ -17,7 +17,6 @@ import ru.keplerbr.homepage.data.model.Tag;
 import ru.keplerbr.homepage.data.model.dto.ArticleDto;
 import ru.keplerbr.homepage.data.model.enumerator.Language;
 import ru.keplerbr.homepage.data.model.enumerator.Visibility;
-import ru.keplerbr.homepage.data.model.request.ArticleAlternationRequest;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public abstract class ArticleDtoToArticleMapper {
@@ -45,7 +44,6 @@ public abstract class ArticleDtoToArticleMapper {
         .put("createdAt", (dto, article) -> dto.setCreatedAt(article.getCreatedAt()));
     dtoToArticleFieldMappers
         .put("updatedAt", (dto, article) -> dto.setUpdatedAt(article.getUpdatedAt()));
-    dtoToArticleFieldMappers.put("url", (dto, article) -> dto.setUrl(article.getUrl()));
 
     dtoGetters = new HashMap<>();
     dtoGetters.put("visibility", ArticleDto::getVisibility);
@@ -56,7 +54,6 @@ public abstract class ArticleDtoToArticleMapper {
     dtoGetters.put("tags", ArticleDto::getTags);
     dtoGetters.put("createdAt", ArticleDto::getCreatedAt);
     dtoGetters.put("updatedAt", ArticleDto::getUpdatedAt);
-    dtoGetters.put("url", ArticleDto::getUrl);
 
     articleSetters = new HashMap<>();
     articleSetters.put("visibility", (article, value) -> {
@@ -86,7 +83,7 @@ public abstract class ArticleDtoToArticleMapper {
     });
     articleSetters.put("tags", (article, value) -> {
       if (value instanceof Set) {
-        article.setTags((Set) value);
+        article.setTags((Set<Tag>) value);
       }
     });
     articleSetters.put("createdAt", (article, value) -> {
@@ -146,26 +143,6 @@ public abstract class ArticleDtoToArticleMapper {
     });
 
     return articleDto;
-  }
-
-  Set<Tag> stringToTag(Set<String> value) {
-    if (Objects.isNull(value)) {
-      return Collections.emptySet();
-    }
-    return value
-        .stream()
-        .map(Tag::new)
-        .collect(Collectors.toSet());
-  }
-
-  Set<String> tagToString(Set<Tag> value) {
-    if (Objects.isNull(value)) {
-      return Collections.emptySet();
-    }
-    return value
-        .stream()
-        .map(Tag::toString)
-        .collect(Collectors.toSet());
   }
 
 }

@@ -24,8 +24,6 @@ public class ArticleDto {
 
   private Visibility visibility;
 
-  private String url;
-
   private String title;
 
   private String markdown;

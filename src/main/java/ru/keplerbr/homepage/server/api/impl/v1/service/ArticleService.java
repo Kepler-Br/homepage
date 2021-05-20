@@ -32,12 +32,6 @@ public class ArticleService {
 
   private final ArticleRepository repository;
 
-  private final Set<String> defaultIncludeFields = new HashSet<>() {{
-    add("title");
-    add("rendered");
-    add("url");
-  }};
-
   @Value("${api.v1.base}")
   private String baseUri;
 
@@ -66,13 +60,28 @@ public class ArticleService {
 
     Article article = articleOptional.get();
 
-    fields.addAll(defaultIncludeFields);
-    ArticleDto articleDto = mapper.articleToDto(article, fields);
+    ArticleDto articleDto;
+
+    if (fields.isEmpty()) {
+      articleDto = mapper.articleToDto(article);
+    } else {
+      articleDto = mapper.articleToDto(article, fields);
+    }
 
     return ResponseEntity.ok(articleDto);
   }
 
   public ResponseEntity<Object> patch(String url, ArticleDto articlePatch) {
+    Optional<Article> articleOptional = repository.getByUrl(url);
+
+    if (articleOptional.isEmpty()) {
+      throw new NotFoundException(String.format("Article with url '%s' cannot be found.", url));
+    }
+    Article article = articleOptional.get();
+
+    article = mapper.patchArticleWithDto(article, articlePatch);
+//    article.getTags().addAll(articlePatch.getTags());
+    repository.save(article);
     return ResponseEntity.ok().build();
   }
 
