@@ -1,24 +1,22 @@
 package ru.keplerbr.homepage.data.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.Date;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 import ru.keplerbr.homepage.data.model.enumerator.Language;
 import ru.keplerbr.homepage.data.model.enumerator.Visibility;
@@ -41,6 +39,7 @@ public class Article {
   private Visibility visibility = Visibility.PRIVATE;
 
   @Column(name = "URL", unique = true)
+  @NaturalId
   private String url;
 
   @Column(name = "TITLE", nullable = false, length = TITLE_MAX_LENGTH)
@@ -65,11 +64,8 @@ public class Article {
   @UpdateTimestamp
   private Date updatedAt;
 
-  @ManyToMany
-  @JoinTable(
-      name = "article_tags",
-      joinColumns = @JoinColumn(name = "article_id"),
-      inverseJoinColumns = @JoinColumn(name = "tag_id"))
+  @ManyToMany(targetEntity = Tag.class, cascade = {CascadeType.PERSIST,
+      CascadeType.MERGE}, fetch = FetchType.EAGER)
   private Set<Tag> tags;
 
   @PrePersist
