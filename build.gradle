@@ -20,8 +20,10 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.vladsch.flexmark:flexmark-all:0.62.2'
+
     implementation 'junit:junit:4.13.1'
-    compile 'org.mapstruct:mapstruct'
+    implementation 'org.mapstruct:mapstruct'
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
 
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
@@ -31,6 +33,14 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation 'com.graphql-java-kickstart:graphql-spring-boot-starter:11.1.0'
+
+    // to embed GraphQL Playground tool
+    runtimeOnly 'com.graphql-java-kickstart:playground-spring-boot-starter:11.1.0'
+
+    // testing facilities
+    testImplementation 'com.graphql-java-kickstart:graphql-spring-boot-starter-test:11.1.0'
 }
 
 test {

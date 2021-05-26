@@ -1,0 +1,20 @@
+api:
+  max-page-count:
+    article: 4
+
+#spring.profiles.active=test
+hibernate:
+  jdbc:
+    time_zone: UTC
+
+
+spring:
+  jackson:
+    mapper:
+      accept-case-insensitive-enums: true
+  jpa:
+    show-sql: true
+
+graphql:
+  servlet:
+    exception-handlers-enabled: true

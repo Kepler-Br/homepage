@@ -1,0 +1,22 @@
+scalar Date
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    tag(name: String!): Tag!
+    article(url: String!): Article!
+
+    markdown(input: String!): String!
+
+    articlesForward(first: Int!, after: String, visibility: Visibility): ArticleConnection @connection(for: "Article")
+    articlesBackward(last: Int!, before: String, visibility: Visibility): ArticleConnection @connection(for: "Article")
+}
+
+type Mutation {
+    createArticle(input: InputCreateArticle!): Article!
+    editArticle(url: String!, input: InputEditArticle!): Article!
+    deleteArticle(url: String!): String!
+}

@@ -1,0 +1,19 @@
+input InputCreateArticle {
+    title: String!
+    markdown: String!
+    tags: [InputTag!]
+    visibility: Visibility!
+    language: Language!
+}
+
+input InputEditArticle {
+    title: String
+    markdown: String
+    tags: [InputTag!]
+    visibility: Visibility
+    language: Language
+}
+
+input InputTag {
+    name: String!
+}
