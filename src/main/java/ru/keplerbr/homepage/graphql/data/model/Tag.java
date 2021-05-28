@@ -17,7 +17,7 @@ import org.hibernate.annotations.NaturalId;
 
 @Data
 @Entity
-@EqualsAndHashCode(of="name")
+@EqualsAndHashCode(of = "name")
 @ToString(exclude = "articles")
 public class Tag {
 

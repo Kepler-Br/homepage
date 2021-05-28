@@ -1,13 +1,13 @@
 package ru.keplerbr.homepage.graphql.data.utils;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
 
 public class Base64Utils {
 
-  private Base64Utils() {}
+  private Base64Utils() {
+  }
 
   public static String encode(String value) {
     if (Objects.isNull(value)) {

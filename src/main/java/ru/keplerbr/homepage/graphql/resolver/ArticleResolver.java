@@ -1,7 +1,5 @@
 package ru.keplerbr.homepage.graphql.resolver;
 
-import static org.springframework.data.jpa.domain.Specification.where;
-
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.relay.Connection;
 import graphql.relay.ConnectionCursor;
@@ -22,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +31,7 @@ import ru.keplerbr.homepage.graphql.data.model.enumerator.Visibility;
 import ru.keplerbr.homepage.graphql.data.model.exception.GraphQLIllegalArgumentException;
 import ru.keplerbr.homepage.graphql.data.model.exception.GraphQLNotFoundException;
 import ru.keplerbr.homepage.graphql.data.repository.ArticleRepository;
+import ru.keplerbr.homepage.graphql.data.specification.ArticleSpecification;
 import ru.keplerbr.homepage.graphql.data.utils.Base64Utils;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -100,7 +101,8 @@ public class ArticleResolver implements GraphQLQueryResolver {
   }
 
   @Transactional(readOnly = true)
-  public Connection<Article> articlesBackward(long last, @Nullable String before, @Nullable Visibility filterByVisibility) {
+  public Connection<Article> articlesBackward(long last, @Nullable String before,
+      @Nullable Visibility filterByVisibility) {
     long articleId = validateArguments(last, before);
 
     articleId = articleId == 0L ? Long.MAX_VALUE : articleId;
@@ -122,7 +124,8 @@ public class ArticleResolver implements GraphQLQueryResolver {
   }
 
   @Transactional(readOnly = true)
-  public Connection<Article> articlesForward(long first, @Nullable String after, @Nullable Visibility filterByVisibility) {
+  public Connection<Article> articlesForward(long first, @Nullable String after,
+      @Nullable Visibility filterByVisibility) {
     long articleId = validateArguments(first, after);
 
     if (articleRepository.count() == 0L) {
@@ -130,8 +133,15 @@ public class ArticleResolver implements GraphQLQueryResolver {
     }
 
     first = (first > maxArticlePageCount) ? maxArticlePageCount : first;
-    List<Article> fetchedArticles = articleRepository
-        .findAllByIdGreaterThan(articleId, PageRequest.of(0, (int) first + 1));
+
+    Specification<Article> specification = ArticleSpecification.idGreaterThan(articleId);
+
+    if (Objects.nonNull(filterByVisibility)) {
+      specification = specification.and(ArticleSpecification.visibilityEquals(filterByVisibility));
+    }
+
+    Pageable pageable = PageRequest.of(0, (int) first + 1);
+    List<Article> fetchedArticles = articleRepository.findAll(specification, pageable);
     long fetchedArticleCount = fetchedArticles.size();
     boolean hasNext = fetchedArticleCount > first;
     boolean hasPrevious = !articleRepository

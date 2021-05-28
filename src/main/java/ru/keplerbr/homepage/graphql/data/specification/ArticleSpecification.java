@@ -9,8 +9,11 @@ public class ArticleSpecification {
   private ArticleSpecification() {
   }
 
-  public static Specification<Article> idLessThan(long id) {
-    return (root, query, builder) -> builder.lessThan(root.get("id"), id);
+  public static Specification<Article> idLessThanDesc(long id) {
+    return (root, query, builder) -> {
+      query.orderBy(builder.desc(root.get("id")));
+      return builder.lessThan(root.get("id"), id);
+    };
   }
 
   public static Specification<Article> idGreaterThan(long id) {
@@ -18,7 +21,7 @@ public class ArticleSpecification {
   }
 
   public static Specification<Article> visibilityEquals(Visibility visibility) {
-    return (root, query, builder) -> builder.equal(root.get("id"), visibility);
+    return (root, query, builder) -> builder.equal(root.get("visibility"), visibility);
   }
 
 }

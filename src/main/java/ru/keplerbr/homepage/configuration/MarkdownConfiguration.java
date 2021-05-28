@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MarkdownConfiguration {
+
   private final MutableDataSet options;
 
   public MarkdownConfiguration() {

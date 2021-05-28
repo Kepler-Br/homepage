@@ -1,20 +1,18 @@
 package ru.keplerbr.homepage.graphql.resolver;
 
 import graphql.kickstart.tools.GraphQLMutationResolver;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.keplerbr.homepage.graphql.data.mapper.ArticleInputAndArticleMapper;
 import ru.keplerbr.homepage.graphql.data.mapper.TagInputAndTagMapper;
 import ru.keplerbr.homepage.graphql.data.model.Article;
 import ru.keplerbr.homepage.graphql.data.model.Tag;
-import ru.keplerbr.homepage.graphql.data.model.exception.GraphQLIllegalArgumentException;
 import ru.keplerbr.homepage.graphql.data.model.exception.GraphQLNotFoundException;
 import ru.keplerbr.homepage.graphql.data.model.input.ArticleMutationInput;
-import ru.keplerbr.homepage.graphql.data.mapper.ArticleInputAndArticleMapper;
 import ru.keplerbr.homepage.graphql.data.repository.ArticleRepository;
 import ru.keplerbr.homepage.graphql.data.repository.TagRepository;
 import ru.keplerbr.homepage.graphql.data.utils.IdBasedUriGenerator;
@@ -51,7 +49,8 @@ public class ArticleMutationResolver implements GraphQLMutationResolver {
     long deleted = articleRepository.deleteByUrl(url);
 
     if (deleted == 0) {
-      throw new GraphQLNotFoundException(String.format("Article with url \"%s\" was not found", url));
+      throw new GraphQLNotFoundException(
+          String.format("Article with url \"%s\" was not found", url));
     }
     return url;
   }
@@ -61,7 +60,8 @@ public class ArticleMutationResolver implements GraphQLMutationResolver {
     Article article = articleRepository
         .getByUrl(url)
         .orElseThrow(
-            () -> new GraphQLNotFoundException(String.format("Article with url \"%s\" was not found", url))
+            () -> new GraphQLNotFoundException(
+                String.format("Article with url \"%s\" was not found", url))
         );
 
     articleMapper.patchArticleWithInput(article, inputArticle);

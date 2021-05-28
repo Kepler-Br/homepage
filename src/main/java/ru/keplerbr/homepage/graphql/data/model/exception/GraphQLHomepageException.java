@@ -1,6 +1,5 @@
 package ru.keplerbr.homepage.graphql.data.model.exception;
 
-import graphql.ErrorType;
 import graphql.GraphQLError;
 import graphql.language.SourceLocation;
 import java.util.Collections;
