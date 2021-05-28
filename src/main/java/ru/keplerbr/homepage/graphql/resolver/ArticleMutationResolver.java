@@ -1,8 +1,6 @@
 package ru.keplerbr.homepage.graphql.resolver;
 
 import graphql.kickstart.tools.GraphQLMutationResolver;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +14,9 @@ import ru.keplerbr.homepage.graphql.data.model.input.ArticleMutationInput;
 import ru.keplerbr.homepage.graphql.data.repository.ArticleRepository;
 import ru.keplerbr.homepage.graphql.data.repository.TagRepository;
 import ru.keplerbr.homepage.graphql.data.utils.IdBasedUriGenerator;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
@@ -34,10 +35,7 @@ public class ArticleMutationResolver implements GraphQLMutationResolver {
   private final TagRepository tagRepository;
 
   private void updateTagsFromRepository(Set<Tag> tagSet) {
-    Set<String> tagsAsStrings = tagSet
-        .stream()
-        .map(Tag::getName)
-        .collect(Collectors.toSet());
+    Set<String> tagsAsStrings = tagSet.stream().map(Tag::getName).collect(Collectors.toSet());
     Set<Tag> foundTags = tagRepository.findAllByNameIn(tagsAsStrings);
 
     tagSet.removeAll(foundTags);
@@ -57,12 +55,13 @@ public class ArticleMutationResolver implements GraphQLMutationResolver {
 
   @Transactional
   public Article editArticle(String url, ArticleMutationInput inputArticle) {
-    Article article = articleRepository
-        .getByUrl(url)
-        .orElseThrow(
-            () -> new GraphQLNotFoundException(
-                String.format("Article with url \"%s\" was not found", url))
-        );
+    Article article =
+        articleRepository
+            .getByUrl(url)
+            .orElseThrow(
+                () ->
+                    new GraphQLNotFoundException(
+                        String.format("Article with url \"%s\" was not found", url)));
 
     articleMapper.patchArticleWithInput(article, inputArticle);
     Set<Tag> updatedTags = tagMapper.toTagSet(inputArticle.getTags());
@@ -89,5 +88,4 @@ public class ArticleMutationResolver implements GraphQLMutationResolver {
 
     return article;
   }
-
 }

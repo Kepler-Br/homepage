@@ -8,5 +8,4 @@ public class ArticleSpecification {
   public static Specification<Article> byUrl(String url) {
     return (root, query, builder) -> builder.equal(root.get("url"), url);
   }
-
 }

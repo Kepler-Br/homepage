@@ -1,7 +1,8 @@
 package ru.keplerbr.homepage.graphql.data.model;
 
-import javax.persistence.Column;
 import lombok.Data;
+
+import javax.persistence.Column;
 
 @Data
 public class Color {
@@ -14,5 +15,4 @@ public class Color {
 
   @Column(name = "BLUE")
   private float blue;
-
 }

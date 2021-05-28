@@ -1,8 +1,5 @@
 package ru.keplerbr.homepage.graphql.data.mapper;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,6 +7,10 @@ import ru.keplerbr.homepage.graphql.data.model.Article;
 import ru.keplerbr.homepage.graphql.data.model.Tag;
 import ru.keplerbr.homepage.graphql.data.model.input.ArticleMutationInput;
 import ru.keplerbr.homepage.graphql.data.model.input.TagMutationInput;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -39,11 +40,11 @@ public class ArticleInputAndArticleMapper {
     dto.setLanguage(article.getLanguage());
     dto.setTitle(article.getTitle());
     dto.setMarkdown(article.getMarkdown());
-//    dto.setRendered(article.getRendered());
-//    dto.setTags(new ArrayList<>(tagInputAndTagMapper.toDtoSet(article.getTags())));
+    //    dto.setRendered(article.getRendered());
+    //    dto.setTags(new ArrayList<>(tagInputAndTagMapper.toDtoSet(article.getTags())));
     dto.setTags(tagInputAndTagMapper.toInputSet(article.getTags()));
-//    dto.setCreatedAt(article.getCreatedAt());
-//    dto.setUpdatedAt(article.getUpdatedAt());
+    //    dto.setCreatedAt(article.getCreatedAt());
+    //    dto.setUpdatedAt(article.getUpdatedAt());
 
     return dto;
   }
@@ -61,11 +62,11 @@ public class ArticleInputAndArticleMapper {
     if (Objects.nonNull(dto.getLanguage())) {
       article.setLanguage(dto.getLanguage());
     }
-//    if (Objects.nonNull(dto.getTags())) {
-//      Set<Tag> articleTagSet = article.getTags();
-//      articleTagSet.clear();
-//      articleTagSet.addAll(tagInputAndTagMapper.toTagSet(dto.getTags()));
-//    }
+    //    if (Objects.nonNull(dto.getTags())) {
+    //      Set<Tag> articleTagSet = article.getTags();
+    //      articleTagSet.clear();
+    //      articleTagSet.addAll(tagInputAndTagMapper.toTagSet(dto.getTags()));
+    //    }
 
     return article;
   }
@@ -87,20 +88,20 @@ public class ArticleInputAndArticleMapper {
         case "markdown":
           dto.setMarkdown(article.getMarkdown());
           break;
-//        case "rendered":
-//          dto.setRendered(article.getRendered());
-//          break;
+          //        case "rendered":
+          //          dto.setRendered(article.getRendered());
+          //          break;
         case "tags":
           Set<Tag> articleTags = article.getTags();
           Set<TagMutationInput> dtoTags = tagInputAndTagMapper.toInputSet(articleTags);
           dto.setTags(dtoTags);
           break;
-//        case "createdAt":
-//          dto.setCreatedAt(article.getCreatedAt());
-//          break;
-//        case "updatedAt":
-//          dto.setUpdatedAt(article.getCreatedAt());
-//          break;
+          //        case "createdAt":
+          //          dto.setCreatedAt(article.getCreatedAt());
+          //          break;
+          //        case "updatedAt":
+          //          dto.setUpdatedAt(article.getCreatedAt());
+          //          break;
         default:
           break;
       }
@@ -108,5 +109,4 @@ public class ArticleInputAndArticleMapper {
 
     return dto;
   }
-
 }

@@ -1,12 +1,11 @@
 package ru.keplerbr.homepage.graphql.data.model.exception;
 
-import static ru.keplerbr.homepage.graphql.data.model.enumerator.ErrorType.NOT_FOUND;
-
 import graphql.ErrorType;
 import graphql.GraphQLError;
 
-public class GraphQLNotFoundException extends GraphQLHomepageException implements
-    GraphQLError {
+import static ru.keplerbr.homepage.graphql.data.model.enumerator.ErrorType.NOT_FOUND;
+
+public class GraphQLNotFoundException extends GraphQLHomepageException implements GraphQLError {
 
   public GraphQLNotFoundException() {
     super(NOT_FOUND.getCode());
@@ -28,5 +27,4 @@ public class GraphQLNotFoundException extends GraphQLHomepageException implement
   public ErrorType getErrorType() {
     return ErrorType.DataFetchingException;
   }
-
 }

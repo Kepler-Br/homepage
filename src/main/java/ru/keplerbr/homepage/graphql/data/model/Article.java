@@ -1,19 +1,5 @@
 package ru.keplerbr.homepage.graphql.data.model;
 
-import java.util.Date;
-import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,6 +8,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 import ru.keplerbr.homepage.graphql.data.model.enumerator.Language;
 import ru.keplerbr.homepage.graphql.data.model.enumerator.Visibility;
 import ru.keplerbr.homepage.graphql.data.model.listener.ArticleListener;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.util.Date;
+import java.util.Set;
 
 @Data
 @Entity
@@ -69,10 +60,9 @@ public class Article {
   @UpdateTimestamp
   private Date updatedAt;
 
-  @ManyToMany(targetEntity = Tag.class, cascade = {CascadeType.DETACH,
-      CascadeType.MERGE,
-      CascadeType.REFRESH,
-      CascadeType.PERSIST}, fetch = FetchType.EAGER)
+  @ManyToMany(
+      targetEntity = Tag.class,
+      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST},
+      fetch = FetchType.EAGER)
   private Set<Tag> tags;
-
 }

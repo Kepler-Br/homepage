@@ -6,8 +6,7 @@ import java.util.Objects;
 
 public class Base64Utils {
 
-  private Base64Utils() {
-  }
+  private Base64Utils() {}
 
   public static String encode(String value) {
     if (Objects.isNull(value)) {
@@ -34,9 +33,6 @@ public class Base64Utils {
       return 0L;
     }
 
-    return Long.parseLong(
-        decode(base64)
-    );
+    return Long.parseLong(decode(base64));
   }
-
 }

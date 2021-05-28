@@ -1,10 +1,11 @@
 package ru.keplerbr.homepage.graphql.data.model.input;
 
-import java.util.Set;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.keplerbr.homepage.graphql.data.model.enumerator.Language;
 import ru.keplerbr.homepage.graphql.data.model.enumerator.Visibility;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -19,5 +20,4 @@ public class ArticleMutationInput {
   private Language language;
 
   private Set<TagMutationInput> tags;
-
 }

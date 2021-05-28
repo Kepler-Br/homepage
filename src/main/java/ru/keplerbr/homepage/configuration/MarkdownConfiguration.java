@@ -15,10 +15,11 @@ public class MarkdownConfiguration {
     options = new MutableDataSet();
 
     // uncomment to set optional extensions
-    //options.set(Parser.EXTENSIONS, Arrays.asList(TablesExtension.create(), StrikethroughExtension.create()));
+    // options.set(Parser.EXTENSIONS, Arrays.asList(TablesExtension.create(),
+    // StrikethroughExtension.create()));
 
     // uncomment to convert soft-breaks to hard breaks
-    //options.set(HtmlRenderer.SOFT_BREAK, "<br />\n");
+    // options.set(HtmlRenderer.SOFT_BREAK, "<br />\n");
   }
 
   @Bean
@@ -30,5 +31,4 @@ public class MarkdownConfiguration {
   public HtmlRenderer markdownHtmlRendererBean() {
     return HtmlRenderer.builder(options).build();
   }
-
 }

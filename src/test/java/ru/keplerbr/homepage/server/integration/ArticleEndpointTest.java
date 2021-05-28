@@ -15,39 +15,39 @@ import ru.keplerbr.homepage.server.integration.config.ApiUrlsConfigurationProper
 @EnableConfigurationProperties(ApiUrlsConfigurationProperties.class)
 class ArticleEndpointTest {
 
-//  private static MockMvc mockMvc;
-//
-//  @Autowired
-//  private ApiUrlsConfigurationProperties apiUrls;
-//
-//  @Autowired
-//  private ArticleRepository articleRepository;
-//
-//  @Autowired
-//  public ArticleEndpointTest(WebApplicationContext wac) {
-//    mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-//  }
-//
-//  @Test
-//  void create_CreateValidArticle_ValidArticleReturned() throws Exception {
-//    final String slug = "null";
-//
-////    ArticleAlternationRequest request = new ArticleAlternationRequest(
-////        "Test",
-////        "This is a test",
-////        slug,
-////        Collections.emptySet(),
-////        Language.EN,
-////        Visibility.PRIVATE);
-////
-////    mockMvc.perform(
-////        post(apiUrls.getBase() + apiUrls.getArticleV1())
-////            .contentType(MediaType.APPLICATION_JSON)
-////            .content(new ObjectMapper().writeValueAsString(request)))
-////        .andExpect(status().isCreated());
-////
-////    Optional<Article> articleOptional = articleRepository.findByUrl(slug);
-////
-////    Assertions.assertTrue(articleOptional.isPresent());
-//  }
+  //  private static MockMvc mockMvc;
+  //
+  //  @Autowired
+  //  private ApiUrlsConfigurationProperties apiUrls;
+  //
+  //  @Autowired
+  //  private ArticleRepository articleRepository;
+  //
+  //  @Autowired
+  //  public ArticleEndpointTest(WebApplicationContext wac) {
+  //    mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+  //  }
+  //
+  //  @Test
+  //  void create_CreateValidArticle_ValidArticleReturned() throws Exception {
+  //    final String slug = "null";
+  //
+  ////    ArticleAlternationRequest request = new ArticleAlternationRequest(
+  ////        "Test",
+  ////        "This is a test",
+  ////        slug,
+  ////        Collections.emptySet(),
+  ////        Language.EN,
+  ////        Visibility.PRIVATE);
+  ////
+  ////    mockMvc.perform(
+  ////        post(apiUrls.getBase() + apiUrls.getArticleV1())
+  ////            .contentType(MediaType.APPLICATION_JSON)
+  ////            .content(new ObjectMapper().writeValueAsString(request)))
+  ////        .andExpect(status().isCreated());
+  ////
+  ////    Optional<Article> articleOptional = articleRepository.findByUrl(slug);
+  ////
+  ////    Assertions.assertTrue(articleOptional.isPresent());
+  //  }
 }

@@ -1,21 +1,7 @@
 package ru.keplerbr.homepage.graphql.resolver;
 
 import graphql.kickstart.tools.GraphQLQueryResolver;
-import graphql.relay.Connection;
-import graphql.relay.ConnectionCursor;
-import graphql.relay.DefaultConnection;
-import graphql.relay.DefaultConnectionCursor;
-import graphql.relay.DefaultEdge;
-import graphql.relay.DefaultPageInfo;
-import graphql.relay.Edge;
-import graphql.relay.PageInfo;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import graphql.relay.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +20,10 @@ import ru.keplerbr.homepage.graphql.data.repository.ArticleRepository;
 import ru.keplerbr.homepage.graphql.data.specification.ArticleSpecification;
 import ru.keplerbr.homepage.graphql.data.utils.Base64Utils;
 
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class ArticleResolver implements GraphQLQueryResolver {
@@ -48,19 +38,14 @@ public class ArticleResolver implements GraphQLQueryResolver {
   }
 
   private static ConnectionCursor getConnectionCursor(Article article) {
-    byte[] articleIdBytes = article.getId().toString().getBytes(
-        StandardCharsets.UTF_8);
+    byte[] articleIdBytes = article.getId().toString().getBytes(StandardCharsets.UTF_8);
     String base64String = Base64.getEncoder().encodeToString(articleIdBytes);
 
     return new DefaultConnectionCursor(base64String);
   }
 
   private static Connection<Article> getEmptyConnection() {
-    PageInfo pageInfo = new DefaultPageInfo(
-        null,
-        null,
-        false,
-        false);
+    PageInfo pageInfo = new DefaultPageInfo(null, null, false, false);
 
     return new DefaultConnection<>(new ArrayList<>(), pageInfo);
   }
@@ -85,24 +70,26 @@ public class ArticleResolver implements GraphQLQueryResolver {
     return articleId;
   }
 
-  private Connection<Article> constructConnection(List<Article> articleList, boolean hasNext,
-      boolean hasPrevious, long limit) {
-    List<Edge<Article>> edges = articleList.stream()
-        .limit(limit)
-        .map(article -> new DefaultEdge<>(article, getConnectionCursor(article)))
-        .collect(Collectors.toList());
-    PageInfo pageInfo = new DefaultPageInfo(
-        edges.isEmpty() ? null : edges.get(0).getCursor(),
-        edges.isEmpty() ? null : edges.get(edges.size() - 1).getCursor(),
-        hasPrevious,
-        hasNext);
+  private Connection<Article> constructConnection(
+      List<Article> articleList, boolean hasNext, boolean hasPrevious, long limit) {
+    List<Edge<Article>> edges =
+        articleList.stream()
+            .limit(limit)
+            .map(article -> new DefaultEdge<>(article, getConnectionCursor(article)))
+            .collect(Collectors.toList());
+    PageInfo pageInfo =
+        new DefaultPageInfo(
+            edges.isEmpty() ? null : edges.get(0).getCursor(),
+            edges.isEmpty() ? null : edges.get(edges.size() - 1).getCursor(),
+            hasPrevious,
+            hasNext);
 
     return new DefaultConnection<>(edges, pageInfo);
   }
 
   @Transactional(readOnly = true)
-  public Connection<Article> articlesBackward(long last, @Nullable String before,
-      @Nullable Visibility filterByVisibility) {
+  public Connection<Article> articlesBackward(
+      long last, @Nullable String before, @Nullable Visibility filterByVisibility) {
     long articleId = validateArguments(last, before);
 
     articleId = articleId == 0L ? Long.MAX_VALUE : articleId;
@@ -113,19 +100,20 @@ public class ArticleResolver implements GraphQLQueryResolver {
 
     last = (last > maxArticlePageCount) ? maxArticlePageCount : last;
 
-    List<Article> fetchedArticles = articleRepository
-        .findAllByIdLessThanOrderByIdDesc(articleId, PageRequest.of(0, (int) last + 1));
+    List<Article> fetchedArticles =
+        articleRepository.findAllByIdLessThanOrderByIdDesc(
+            articleId, PageRequest.of(0, (int) last + 1));
     long fetchedArticleCount = fetchedArticles.size();
     boolean hasNext = fetchedArticleCount > last;
-    boolean hasPrevious = !articleRepository
-        .findAllByIdGreaterThan(articleId, PageRequest.of(0, 1)).isEmpty();
+    boolean hasPrevious =
+        !articleRepository.findAllByIdGreaterThan(articleId, PageRequest.of(0, 1)).isEmpty();
 
     return constructConnection(fetchedArticles, hasNext, hasPrevious, last);
   }
 
   @Transactional(readOnly = true)
-  public Connection<Article> articlesForward(long first, @Nullable String after,
-      @Nullable Visibility filterByVisibility) {
+  public Connection<Article> articlesForward(
+      long first, @Nullable String after, @Nullable Visibility filterByVisibility) {
     long articleId = validateArguments(first, after);
 
     if (articleRepository.count() == 0L) {
@@ -144,8 +132,8 @@ public class ArticleResolver implements GraphQLQueryResolver {
     List<Article> fetchedArticles = articleRepository.findAll(specification, pageable);
     long fetchedArticleCount = fetchedArticles.size();
     boolean hasNext = fetchedArticleCount > first;
-    boolean hasPrevious = !articleRepository
-        .findAllByIdLessThan(articleId, PageRequest.of(0, 1)).isEmpty();
+    boolean hasPrevious =
+        !articleRepository.findAllByIdLessThan(articleId, PageRequest.of(0, 1)).isEmpty();
 
     return constructConnection(fetchedArticles, hasNext, hasPrevious, first);
   }
@@ -155,9 +143,8 @@ public class ArticleResolver implements GraphQLQueryResolver {
     return articleRepository
         .getByUrl(url)
         .orElseThrow(
-            () -> new GraphQLNotFoundException(
-                String.format("Article with url \"%s\" was not found", url))
-        );
+            () ->
+                new GraphQLNotFoundException(
+                    String.format("Article with url \"%s\" was not found", url)));
   }
-
 }

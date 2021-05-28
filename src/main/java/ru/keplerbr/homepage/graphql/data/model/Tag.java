@@ -1,19 +1,14 @@
 package ru.keplerbr.homepage.graphql.data.model;
 
-import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
+
+import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import java.util.List;
 
 @Data
 @Entity
@@ -34,8 +29,7 @@ public class Tag {
   @ManyToMany(targetEntity = Article.class, mappedBy = "tags", fetch = FetchType.EAGER)
   private List<Article> articles;
 
-  public Tag() {
-  }
+  public Tag() {}
 
   public Tag(@NonNull String name) {
     this.name = name;

@@ -7,8 +7,7 @@ public class IdBasedUriGenerator {
 
   private static final long CHARSET_LEN = charset.length;
 
-  private IdBasedUriGenerator() {
-  }
+  private IdBasedUriGenerator() {}
 
   public static String generate(String seed, long dbId, long minLength) {
     long seedHash = Math.abs(seed.hashCode());
@@ -32,5 +31,4 @@ public class IdBasedUriGenerator {
 
     return stringBuilder.toString();
   }
-
 }

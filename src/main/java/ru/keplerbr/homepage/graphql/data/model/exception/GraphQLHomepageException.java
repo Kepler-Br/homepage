@@ -2,12 +2,12 @@ package ru.keplerbr.homepage.graphql.data.model.exception;
 
 import graphql.GraphQLError;
 import graphql.language.SourceLocation;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public abstract class GraphQLHomepageException extends RuntimeException implements
-    GraphQLError {
+public abstract class GraphQLHomepageException extends RuntimeException implements GraphQLError {
 
   private final transient Map<String, Object> extensions;
 
@@ -44,5 +44,4 @@ public abstract class GraphQLHomepageException extends RuntimeException implemen
   public Map<String, Object> getExtensions() {
     return extensions;
   }
-
 }

@@ -1,12 +1,12 @@
 package ru.keplerbr.homepage.graphql.data.model.exception;
 
-import static ru.keplerbr.homepage.graphql.data.model.enumerator.ErrorType.BAD_REQUEST;
-
 import graphql.ErrorType;
 import graphql.GraphQLError;
 
-public class GraphQLIllegalArgumentException extends GraphQLHomepageException implements
-    GraphQLError {
+import static ru.keplerbr.homepage.graphql.data.model.enumerator.ErrorType.BAD_REQUEST;
+
+public class GraphQLIllegalArgumentException extends GraphQLHomepageException
+    implements GraphQLError {
 
   public GraphQLIllegalArgumentException() {
     super(BAD_REQUEST.getCode());
@@ -28,5 +28,4 @@ public class GraphQLIllegalArgumentException extends GraphQLHomepageException im
   public ErrorType getErrorType() {
     return ErrorType.ValidationError;
   }
-
 }

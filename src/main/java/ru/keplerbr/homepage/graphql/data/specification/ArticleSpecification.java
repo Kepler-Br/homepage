@@ -6,8 +6,7 @@ import ru.keplerbr.homepage.graphql.data.model.enumerator.Visibility;
 
 public class ArticleSpecification {
 
-  private ArticleSpecification() {
-  }
+  private ArticleSpecification() {}
 
   public static Specification<Article> idLessThanDesc(long id) {
     return (root, query, builder) -> {
@@ -23,5 +22,4 @@ public class ArticleSpecification {
   public static Specification<Article> visibilityEquals(Visibility visibility) {
     return (root, query, builder) -> builder.equal(root.get("visibility"), visibility);
   }
-
 }

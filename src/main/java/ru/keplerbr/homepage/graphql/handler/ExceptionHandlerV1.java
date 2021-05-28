@@ -21,10 +21,10 @@ public class ExceptionHandlerV1 {
     return new ThrowableGraphQLError(ex);
   }
 
-//  @ExceptionHandler(GraphQLNotFoundException.class)
-//  public GraphQLNotFoundException illegalArgument(GraphQLNotFoundException ex) {
-//    return ex;
-//  }
+  //  @ExceptionHandler(GraphQLNotFoundException.class)
+  //  public GraphQLNotFoundException illegalArgument(GraphQLNotFoundException ex) {
+  //    return ex;
+  //  }
 
   @ExceptionHandler(RuntimeException.class)
   public ThrowableGraphQLError internalError(RuntimeException ex) {
@@ -32,5 +32,4 @@ public class ExceptionHandlerV1 {
 
     return new ThrowableGraphQLError(ex, "Internal server error");
   }
-
 }

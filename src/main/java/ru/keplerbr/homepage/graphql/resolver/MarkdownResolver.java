@@ -21,5 +21,4 @@ public class MarkdownResolver implements GraphQLQueryResolver {
 
     return markdownRenderer.render(document);
   }
-
 }

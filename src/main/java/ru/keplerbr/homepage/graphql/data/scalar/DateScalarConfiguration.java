@@ -1,14 +1,11 @@
 package ru.keplerbr.homepage.graphql.data.scalar;
 
-import graphql.schema.Coercing;
-import graphql.schema.CoercingParseLiteralException;
-import graphql.schema.CoercingParseValueException;
-import graphql.schema.CoercingSerializeException;
-import graphql.schema.GraphQLScalarType;
-import java.util.Date;
+import graphql.schema.*;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Date;
 
 @Configuration
 @NoArgsConstructor
@@ -49,5 +46,4 @@ public class DateScalarConfiguration {
       return new Date((Long) input);
     }
   }
-
 }

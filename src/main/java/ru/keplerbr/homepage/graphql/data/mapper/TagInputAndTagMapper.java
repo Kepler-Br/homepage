@@ -1,12 +1,13 @@
 package ru.keplerbr.homepage.graphql.data.mapper;
 
+import org.springframework.stereotype.Component;
+import ru.keplerbr.homepage.graphql.data.model.Tag;
+import ru.keplerbr.homepage.graphql.data.model.input.TagMutationInput;
+
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Component;
-import ru.keplerbr.homepage.graphql.data.model.Tag;
-import ru.keplerbr.homepage.graphql.data.model.input.TagMutationInput;
 
 @Component
 public class TagInputAndTagMapper {
@@ -30,8 +31,8 @@ public class TagInputAndTagMapper {
     if (Objects.isNull(tags)) {
       return Collections.emptySet();
     }
-    return tags.stream().map(tag -> new TagMutationInput(tag.getName()))
+    return tags.stream()
+        .map(tag -> new TagMutationInput(tag.getName()))
         .collect(Collectors.toSet());
   }
-
 }
