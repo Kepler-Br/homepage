@@ -1,6 +1,7 @@
 input InputCreateArticle {
     title: String!
     markdown: String!
+    markdownPreview: String!
     tags: [InputTag!]
     visibility: Visibility!
     language: Language!
@@ -9,6 +10,7 @@ input InputCreateArticle {
 input InputEditArticle {
     title: String
     markdown: String
+    markdownPreview: String
     tags: [InputTag!]
     visibility: Visibility
     language: Language

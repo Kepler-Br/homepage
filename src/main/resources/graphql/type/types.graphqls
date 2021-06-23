@@ -26,6 +26,8 @@ type Article {
     title: String!
     markdown: String!
     rendered: String!
+    markdownPreview: String!
+    renderedPreview: String!
     tags: [Tag!]!
     visibility: Visibility!
     language: Language!

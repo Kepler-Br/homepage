@@ -17,6 +17,8 @@ public class ArticleMutationInput {
 
   private String markdown;
 
+  private String markdownPreview;
+
   private Language language;
 
   private Set<TagMutationInput> tags;

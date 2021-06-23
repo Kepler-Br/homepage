@@ -24,6 +24,7 @@ public class ArticleInputAndArticleMapper {
     article.setVisibility(dto.getVisibility());
     article.setTitle(dto.getTitle());
     article.setMarkdown(dto.getMarkdown());
+    article.setMarkdownPreview(dto.getMarkdownPreview());
     article.setLanguage(dto.getLanguage());
     article.setTags(tagInputAndTagMapper.toTagSet(new HashSet<>(dto.getTags())));
 

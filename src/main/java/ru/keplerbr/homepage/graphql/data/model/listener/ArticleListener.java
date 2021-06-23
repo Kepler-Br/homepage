@@ -17,13 +17,19 @@ public class ArticleListener {
 
   private final HtmlRenderer markdownRenderer;
 
+  private String renderMarkdown(String markdown) {
+    Node document = markdownParser.parse(markdown);
+    return markdownRenderer.render(document);
+  }
+
   @PrePersist
   @PreUpdate
   public void updateRendered(Article article) {
     String markdown = article.getMarkdown();
-    Node document = markdownParser.parse(markdown);
-    String rendered = markdownRenderer.render(document);
 
-    article.setRendered(rendered);
+    article.setRendered(renderMarkdown(markdown));
+
+    markdown = article.getMarkdownPreview();
+    article.setRenderedPreview(renderMarkdown(markdown));
   }
 }

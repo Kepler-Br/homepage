@@ -22,6 +22,8 @@ public class Article {
 
   public static final int MARKDOWN_MAX_LENGTH = 4096;
 
+  public static final int MARKDOWN_PREVIEW_MAX_LENGTH = 1024;
+
   public static final int TITLE_MAX_LENGTH = 1024;
 
   @Id
@@ -40,6 +42,13 @@ public class Article {
   @Column(name = "TITLE", nullable = false, length = TITLE_MAX_LENGTH)
   @NotEmpty
   private String title;
+
+  @Column(name = "MARKDOWN_PREVIEW", nullable = false, length = MARKDOWN_PREVIEW_MAX_LENGTH)
+  @NotEmpty
+  private String markdownPreview;
+
+  @Column(name = "RENDERED_PREVIEW", nullable = false, length = MARKDOWN_PREVIEW_MAX_LENGTH * 4)
+  private String renderedPreview;
 
   @Column(name = "MARKDOWN", nullable = false, length = MARKDOWN_MAX_LENGTH)
   @NotEmpty

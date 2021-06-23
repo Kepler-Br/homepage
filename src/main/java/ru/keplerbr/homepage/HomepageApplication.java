@@ -10,7 +10,4 @@ public class HomepageApplication {
     SpringApplication.run(HomepageApplication.class, args);
   }
 
-  //  @Bean
-  //  public static Parser
-
 }

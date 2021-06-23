@@ -18,3 +18,13 @@ spring:
 graphql:
   servlet:
     exception-handlers-enabled: true
+    cors-enabled: true
+    cors:
+      allowed-headers:
+        - "Origin"
+        - "Content-Type"
+        - "X-Auth-Token"
+      allowed-origins:
+        - "http://127.0.0.1:3000"
+      allowed-methods:
+        - "POST"
