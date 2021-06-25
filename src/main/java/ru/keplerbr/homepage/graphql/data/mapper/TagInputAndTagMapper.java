@@ -2,7 +2,7 @@ package ru.keplerbr.homepage.graphql.data.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.keplerbr.homepage.graphql.data.model.Tag;
-import ru.keplerbr.homepage.graphql.data.model.input.TagMutationInput;
+import ru.keplerbr.homepage.graphql.data.model.dto.TagMutationInput;
 
 import java.util.Collections;
 import java.util.Objects;

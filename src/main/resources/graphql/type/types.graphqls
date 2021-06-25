@@ -1,6 +1,9 @@
 type Tag {
     name: String!
-    #    color: Color
+}
+
+type ArticleLanguage {
+    name: String!
 }
 
 type Color {
@@ -16,21 +19,20 @@ enum Visibility {
     PUBLIC
 }
 
-enum Language {
-    EN
-    RU
-}
-
 type Article {
     url: String!
+    translations: [ArticleTranslation!]!
+    tags: [Tag!]!
+    visibility: Visibility!
+    createdAt: Date!
+    updatedAt: Date!
+}
+
+type ArticleTranslation {
     title: String!
     markdown: String!
     rendered: String!
     markdownPreview: String!
     renderedPreview: String!
-    tags: [Tag!]!
-    visibility: Visibility!
-    language: Language!
-    createdAt: Date!
-    updatedAt: Date!
+    language: ArticleLanguage!
 }

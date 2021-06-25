@@ -18,9 +18,9 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
   Optional<Article> findByUrl(String url);
 
-  List<Article> findAllByLanguage(Language language);
+//  List<Article> findAllByLanguage(Language language);
 
-  Long countByLanguage(Language language);
+//  Long countByLanguage(Language language);
 
   List<Article> findAll(Specification<Article> specification);
 

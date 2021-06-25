@@ -1,4 +1,4 @@
-package ru.keplerbr.homepage.graphql.data.model.input;
+package ru.keplerbr.homepage.graphql.data.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

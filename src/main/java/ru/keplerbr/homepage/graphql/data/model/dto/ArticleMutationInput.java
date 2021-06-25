@@ -1,4 +1,4 @@
-package ru.keplerbr.homepage.graphql.data.model.input;
+package ru.keplerbr.homepage.graphql.data.model.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,13 +13,7 @@ public class ArticleMutationInput {
 
   private Visibility visibility;
 
-  private String title;
+  private Set<ArticleTranslationMutationInput> translations;
 
-  private String markdown;
-
-  private String markdownPreview;
-
-  private Language language;
-
-  private Set<TagMutationInput> tags;
+  private Set<String> tags;
 }

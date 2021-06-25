@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @EqualsAndHashCode(of = "name")
 @ToString(of = {"id", "name"})
-public class Tag {
+public class ArticleLanguage {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,16 +22,15 @@ public class Tag {
   private Long id;
 
   @Column(name = "NAME", unique = true, nullable = false)
-  @Pattern(regexp = "(?U)\\w+")
   @NaturalId
   private String name;
 
-  @ManyToMany(targetEntity = Article.class, mappedBy = "tags", fetch = FetchType.EAGER)
-  private List<Article> articles;
+  @OneToMany(targetEntity = ArticleTranslation.class, mappedBy = "language", fetch = FetchType.EAGER)
+  private List<ArticleTranslation> articleTranslations;
 
-  public Tag() {}
+  public ArticleLanguage() {}
 
-  public Tag(@NonNull String name) {
+  public ArticleLanguage(@NonNull String name) {
     this.name = name;
   }
 }

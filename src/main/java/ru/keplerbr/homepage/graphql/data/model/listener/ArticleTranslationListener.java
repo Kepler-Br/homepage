@@ -6,12 +6,13 @@ import com.vladsch.flexmark.util.ast.Node;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.keplerbr.homepage.graphql.data.model.Article;
+import ru.keplerbr.homepage.graphql.data.model.ArticleTranslation;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ArticleListener {
+public class ArticleTranslationListener {
 
   private final Parser markdownParser;
 
@@ -24,7 +25,7 @@ public class ArticleListener {
 
   @PrePersist
   @PreUpdate
-  public void updateRendered(Article article) {
+  public void updateRendered(ArticleTranslation article) {
     String markdown = article.getMarkdown();
 
     article.setRendered(renderMarkdown(markdown));
